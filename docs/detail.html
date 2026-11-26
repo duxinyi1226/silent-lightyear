@@ -676,6 +676,10 @@ body {
     color: #475569;
     font-size: 0.85rem;
 }
+/* 確保導覽列、按鈕與天體卡片永遠在深空背景遮罩上方，不被擋住點擊 */
+.cinema-nav { z-index: 1050 !important; }
+.hero-content, .archive-section, .btn-cinema, .btn-cinema-sm, .celestial-card, .detail-content { position: relative; z-index: 10; }
+.hero-overlay, .hero-bg-zoom, .detail-bg-stage, .card-vignette { pointer-events: none !important; }
     </style>
 </head>
 <body>

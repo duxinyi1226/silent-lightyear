@@ -26,7 +26,6 @@ $json_bodies = json_encode($celestial_bodies, JSON_UNESCAPED_UNICODE);
 
 // 強制組裝完整且絕對不會遺失的 <head> 與導覽列 HTML
 function wrap_full_page($body_html, $css_content, $total_count, $title_prefix = '') {
-    // 如果原本輸出已經包含 <!DOCTYPE html>，先剝除舊的 <head> 到 <body> 之間，統一用標準完整標頭重建
     if (stripos($body_html, '<nav') !== false) {
         $body_html = substr($body_html, stripos($body_html, '<nav'));
     } elseif (stripos($body_html, '<header') !== false) {
@@ -76,6 +75,10 @@ HTML;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
 {$css_content}
+/* 確保導覽列、按鈕與天體卡片永遠在深空背景遮罩上方，不被擋住點擊 */
+.cinema-nav { z-index: 1050 !important; }
+.hero-content, .archive-section, .btn-cinema, .btn-cinema-sm, .celestial-card, .detail-content { position: relative; z-index: 10; }
+.hero-overlay, .hero-bg-zoom, .detail-bg-stage, .card-vignette { pointer-events: none !important; }
     </style>
 </head>
 <body>
@@ -160,6 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const href = col.querySelector('a').getAttribute('href');
             const id = new URLSearchParams(href.split('?')[1]).get('id');
             const item = {$json_bodies}[id];
+            if (!item) return;
             const matchType = currentType === 'all' || item.category === currentType;
             const text = (item.name_zh + item.name_en + item.category_zh + item.summary + item.description).toLowerCase();
             const matchKw = !kw || text.includes(kw);
@@ -169,12 +173,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navLinks.forEach(link => {
         link.addEventListener('click', e => {
-            const href = link.getAttribute('href');
-            if (href && href.includes('type=')) {
+            const href = link.getAttribute('href') || '';
+            if (href.includes('#archive')) {
                 e.preventDefault();
-                currentType = new URLSearchParams(href.split('?')[1].split('#')[0]).get('type') || 'all';
+                if (href.includes('type=')) {
+                    currentType = new URLSearchParams(href.split('?')[1].split('#')[0]).get('type') || 'all';
+                } else {
+                    currentType = 'all';
+                    if (searchInput) searchInput.value = '';
+                }
                 filterCards();
-                document.getElementById('archive').scrollIntoView({ behavior: 'smooth' });
+                const archiveEl = document.getElementById('archive');
+                if (archiveEl) archiveEl.scrollIntoView({ behavior: 'smooth' });
+
+                const navCollapse = document.getElementById('navbarNav');
+                if (navCollapse && navCollapse.classList.contains('show')) {
+                    navCollapse.classList.remove('show');
+                }
             }
         });
     });
@@ -184,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             filterCards();
         });
-        searchInput.addEventListener('input', filterCards);
+        if (searchInput) searchInput.addEventListener('input', filterCards);
     }
 });
 </script>
@@ -193,5 +208,5 @@ HTML;
 $index_html = str_replace('</body>', $index_script, $index_html);
 file_put_contents("$out_dir/index.html", $index_html);
 
-echo "<h1>成功！已重建完整頁面與 CSS（" . strlen($css_content) . " bytes）於 /docs 資料夾。</h1>";
+echo "<h1>成功！已重建完整頁面、按鈕點擊修正與 CSS（" . strlen($css_content) . " bytes）於 /docs 資料夾。</h1>";
 ?>
