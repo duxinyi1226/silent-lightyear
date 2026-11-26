@@ -33,7 +33,6 @@ function wrap_full_page($body_html, $css_content, $total_count, $title_prefix = 
         $body_html = substr($body_html, 0, stripos($body_html, '</body>'));
     }
 
-    // 移除舊的 nav，統一用內建可點擊導覽列
     if (stripos($body_html, '</nav>') !== false) {
         $body_html = substr($body_html, stripos($body_html, '</nav>') + 6);
     }
@@ -77,19 +76,35 @@ HTML;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
 {$css_content}
-/* 強制穿透所有背景裝飾層，避免攔截滑鼠點擊 */
+/* 強制穿透背景遮罩，不擋住點擊 */
 .hero-overlay, .hero-bg-zoom, .detail-bg-stage, .card-vignette, .planet-orbit-ring {
     pointer-events: none !important;
 }
-/* 確保導覽列、搜尋框、按鈕與卡片永遠在最上層 */
 .cinema-nav, .cinema-nav * {
     z-index: 9999 !important;
     pointer-events: auto !important;
 }
-.hero-content, .archive-section, #archive form, #archive input, #archive button, .btn-cinema, .btn-cinema-sm, .celestial-card {
+/* 確保搜尋欄點擊與輸入時永遠清晰可見、不會消失 */
+#archive form, #archive .cinema-input, #archive .btn-cinema-sm {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
     position: relative !important;
     z-index: 50 !important;
     pointer-events: auto !important;
+}
+#archive .cinema-input {
+    display: block !important;
+    background-color: rgba(11, 15, 23, 0.85) !important;
+    color: #ffffff !important;
+    border-bottom: 1px solid rgba(56, 189, 248, 0.5) !important;
+    padding: 0.5rem 0.75rem !important;
+}
+#archive .cinema-input:focus {
+    background-color: rgba(15, 23, 42, 0.95) !important;
+    color: #ffffff !important;
+    border-color: #38bdf8 !important;
+    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2) !important;
 }
     </style>
 </head>
@@ -110,7 +125,6 @@ $detail_raw = ob_get_clean();
 $detail_raw = str_replace('index.php', 'index.html', $detail_raw);
 $detail_html = wrap_full_page($detail_raw, $css_content, $total_count, '天體觀測詳情 | ');
 
-// 詳情頁點擊導覽列分類時，跳回首頁並帶上分類參數
 $detail_html = str_replace('onclick="filterByCat(', 'onclick="window.location.href=\'index.html?cat=\'+', $detail_html);
 $detail_html = str_replace('); return false;"', '+ \'#archive\'; return false;"', $detail_html);
 
@@ -173,20 +187,21 @@ foreach ($celestial_bodies as $b) {
 
 $index_html = wrap_full_page($index_raw, $css_content, $total_count, '深空探索檔案館 | ');
 
-// 立即執行（不等圖片載入），且同時支援點擊與即時搜尋
 $index_script = <<<HTML
 <script>
 window.CURRENT_CAT = 'all';
 
 window.applyArchiveFilter = function() {
-    const cards = document.querySelectorAll('#archive .col-12.col-md-6');
+    // 精準抓取「裡面有天體卡片」的外層欄位，絕對不會誤傷搜尋欄！
+    const cardLinks = document.querySelectorAll('#archive .celestial-card');
     const searchInput = document.querySelector('#archive input[name="q"]');
     const kw = (searchInput ? searchInput.value : '').trim().toLowerCase();
 
-    cards.forEach(col => {
-        const cardLink = col.querySelector('.celestial-card');
-        const cat = cardLink ? (cardLink.getAttribute('data-category') || '') : '';
-        const fullText = col.textContent.toLowerCase();
+    cardLinks.forEach(cardLink => {
+        const col = cardLink.parentElement;
+        if (!col) return;
+        const cat = cardLink.getAttribute('data-category') || '';
+        const fullText = cardLink.textContent.toLowerCase();
 
         const matchCat = (window.CURRENT_CAT === 'all') || (cat === window.CURRENT_CAT);
         const matchKw = !kw || fullText.includes(kw);
@@ -211,8 +226,17 @@ window.filterByCat = function(cat) {
     }
 };
 
+// 阻止搜尋表單重新整理頁面，改為原地過濾
 document.addEventListener('submit', function(e) {
     if (e.target && e.target.closest('#archive')) {
+        e.preventDefault();
+        window.applyArchiveFilter();
+    }
+});
+
+// 阻止按下搜尋按鈕時觸發預設提交
+document.addEventListener('click', function(e) {
+    if (e.target && e.target.closest('#archive button')) {
         e.preventDefault();
         window.applyArchiveFilter();
     }
@@ -236,5 +260,5 @@ HTML;
 $index_html = str_replace('</body>', $index_script, $index_html);
 file_put_contents("$out_dir/index.html", $index_html);
 
-echo "<h1>成功！已更新即時執行版（無需等待圖片載入）於 /docs 資料夾（" . date('H:i:s') . "）。</h1>";
+echo "<h1>成功！已修復搜尋欄可見度與精準卡片過濾（" . date('H:i:s') . "）。</h1>";
 ?>

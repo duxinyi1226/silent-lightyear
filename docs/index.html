@@ -676,19 +676,35 @@ body {
     color: #475569;
     font-size: 0.85rem;
 }
-/* 強制穿透所有背景裝飾層，避免攔截滑鼠點擊 */
+/* 強制穿透背景遮罩，不擋住點擊 */
 .hero-overlay, .hero-bg-zoom, .detail-bg-stage, .card-vignette, .planet-orbit-ring {
     pointer-events: none !important;
 }
-/* 確保導覽列、搜尋框、按鈕與卡片永遠在最上層 */
 .cinema-nav, .cinema-nav * {
     z-index: 9999 !important;
     pointer-events: auto !important;
 }
-.hero-content, .archive-section, #archive form, #archive input, #archive button, .btn-cinema, .btn-cinema-sm, .celestial-card {
+/* 確保搜尋欄點擊與輸入時永遠清晰可見、不會消失 */
+#archive form, #archive .cinema-input, #archive .btn-cinema-sm {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
     position: relative !important;
     z-index: 50 !important;
     pointer-events: auto !important;
+}
+#archive .cinema-input {
+    display: block !important;
+    background-color: rgba(11, 15, 23, 0.85) !important;
+    color: #ffffff !important;
+    border-bottom: 1px solid rgba(56, 189, 248, 0.5) !important;
+    padding: 0.5rem 0.75rem !important;
+}
+#archive .cinema-input:focus {
+    background-color: rgba(15, 23, 42, 0.95) !important;
+    color: #ffffff !important;
+    border-color: #38bdf8 !important;
+    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2) !important;
 }
     </style>
 </head>
@@ -1659,14 +1675,16 @@ body {
 window.CURRENT_CAT = 'all';
 
 window.applyArchiveFilter = function() {
-    const cards = document.querySelectorAll('#archive .col-12.col-md-6');
+    // 精準抓取「裡面有天體卡片」的外層欄位，絕對不會誤傷搜尋欄！
+    const cardLinks = document.querySelectorAll('#archive .celestial-card');
     const searchInput = document.querySelector('#archive input[name="q"]');
     const kw = (searchInput ? searchInput.value : '').trim().toLowerCase();
 
-    cards.forEach(col => {
-        const cardLink = col.querySelector('.celestial-card');
-        const cat = cardLink ? (cardLink.getAttribute('data-category') || '') : '';
-        const fullText = col.textContent.toLowerCase();
+    cardLinks.forEach(cardLink => {
+        const col = cardLink.parentElement;
+        if (!col) return;
+        const cat = cardLink.getAttribute('data-category') || '';
+        const fullText = cardLink.textContent.toLowerCase();
 
         const matchCat = (window.CURRENT_CAT === 'all') || (cat === window.CURRENT_CAT);
         const matchKw = !kw || fullText.includes(kw);
@@ -1691,8 +1709,17 @@ window.filterByCat = function(cat) {
     }
 };
 
+// 阻止搜尋表單重新整理頁面，改為原地過濾
 document.addEventListener('submit', function(e) {
     if (e.target && e.target.closest('#archive')) {
+        e.preventDefault();
+        window.applyArchiveFilter();
+    }
+});
+
+// 阻止按下搜尋按鈕時觸發預設提交
+document.addEventListener('click', function(e) {
+    if (e.target && e.target.closest('#archive button')) {
         e.preventDefault();
         window.applyArchiveFilter();
     }
