@@ -20,14 +20,20 @@ if (is_dir(__DIR__ . '/assets')) {
     copy_dir(__DIR__ . '/assets', "$out_dir/assets");
 }
 
+// 讀取本地 style.css 準備直接內嵌進 HTML，避免外部路徑在 GitHub Pages 失效
+$css_content = file_exists(__DIR__ . '/assets/style.css') ? file_get_contents(__DIR__ . '/assets/style.css') : '';
+$inline_style = "<style>\n" . $css_content . "\n</style>\n</head>";
+
 // 1. 產生詳情頁 detail.html（用前端 JS 讀取網址 ?id=xxx，不需重新整理超流暢）
 ob_start();
 $_GET['id'] = 'saturn';
 include __DIR__ . '/detail.php';
 $detail_html = ob_get_clean();
 
-// 將 detail.php 內部的返回連結改為 index.html，並注入前端動態切換資料的 JS
+// 將 detail.php 內部的返回連結改為 index.html，內嵌 CSS，並注入前端動態切換資料的 JS
 $detail_html = str_replace('index.php', 'index.html', $detail_html);
+$detail_html = str_replace(['<link rel="stylesheet" href="assets/style.css">', '</head>'], ['', $inline_style], $detail_html);
+
 $json_bodies = json_encode($celestial_bodies, JSON_UNESCAPED_UNICODE);
 $detail_script = <<<HTML
 <script>
@@ -78,6 +84,8 @@ include __DIR__ . '/index.php';
 $index_html = ob_get_clean();
 
 $index_html = str_replace(['detail.php', 'index.php'], ['detail.html', 'index.html'], $index_html);
+$index_html = str_replace(['<link rel="stylesheet" href="assets/style.css">', '</head>'], ['', $inline_style], $index_html);
+
 $index_script = <<<HTML
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -126,5 +134,5 @@ HTML;
 $index_html = str_replace('</body>', $index_script, $index_html);
 file_put_contents("$out_dir/index.html", $index_html);
 
-echo "<h1>成功！已產生 GitHub Pages 展示版於 /docs 資料夾內。</h1>";
+echo "<h1>成功！已產生內嵌樣式版 GitHub Pages 檔案於 /docs 資料夾內。</h1>";
 ?>
