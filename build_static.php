@@ -23,7 +23,7 @@ $css_content = file_exists(__DIR__ . '/assets/style.css') ? file_get_contents(__
 $total_count = count($celestial_bodies);
 $json_bodies = json_encode($celestial_bodies, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
 
-function wrap_full_page($body_html, $css_content, $total_count, $title_prefix = '') {
+function wrap_full_page($body_html, $css_content, $total_count, $title_prefix = '', $extra_script = '') {
     if (stripos($body_html, '<nav') !== false) {
         $body_html = substr($body_html, stripos($body_html, '<nav'));
     } elseif (stripos($body_html, '<header') !== false) {
@@ -82,7 +82,7 @@ HTML;
     z-index: 9999 !important;
     pointer-events: auto !important;
 }
-#static-search-box, #static-search-input, #static-search-btn {
+#static-search-box, #static-search-input, #static-search-btn, .celestial-card {
     opacity: 1 !important;
     visibility: visible !important;
     position: relative !important;
@@ -106,6 +106,7 @@ HTML;
 {$nav_html}
 {$body_html}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+{$extra_script}
 </body>
 </html>
 HTML;
@@ -117,10 +118,6 @@ $_GET['id'] = 'saturn';
 include __DIR__ . '/detail.php';
 $detail_raw = ob_get_clean();
 $detail_raw = str_replace('index.php', 'index.html', $detail_raw);
-$detail_html = wrap_full_page($detail_raw, $css_content, $total_count, '天體觀測詳情 | ');
-
-$detail_html = str_replace('onclick="filterByCat(', 'onclick="window.location.href=\'index.html?cat=\'+', $detail_html);
-$detail_html = str_replace('); return false;"', '+ \'#archive\'; return false;"', $detail_html);
 
 $detail_script = <<<HTML
 <script id="celestial-data" type="application/json">{$json_bodies}</script>
@@ -132,9 +129,12 @@ $detail_script = <<<HTML
     const body = rawData[id] || Object.values(rawData).find(x => x.id === id) || rawData['saturn'];
     
     document.title = body.name_zh + ' ' + body.name_en + ' | 寂靜光年 SILENT LIGHTYEAR';
-    document.querySelector('.detail-category').textContent = body.category_zh;
-    document.querySelector('.detail-title-zh').textContent = body.name_zh;
-    document.querySelector('.detail-title-en').textContent = body.name_en;
+    const catEl = document.querySelector('.detail-category');
+    if (catEl) catEl.textContent = body.category_zh;
+    const zhEl = document.querySelector('.detail-title-zh');
+    if (zhEl) zhEl.textContent = body.name_zh;
+    const enEl = document.querySelector('.detail-title-en');
+    if (enEl) enEl.textContent = body.name_en;
     
     const vals = document.querySelectorAll('.telemetry-item .value');
     if (vals.length >= 4) {
@@ -143,26 +143,32 @@ $detail_script = <<<HTML
         vals[2].textContent = body.magnitude;
         vals[3].textContent = body.category_zh;
     }
-    document.querySelector('.story-lead').textContent = body.summary;
-    document.querySelector('.story-text').innerHTML = body.description.replace(/\\n/g, '<br>');
+    const leadEl = document.querySelector('.story-lead');
+    if (leadEl) leadEl.textContent = body.summary;
+    const textEl = document.querySelector('.story-text');
+    if (textEl) textEl.innerHTML = body.description.replace(/\\n/g, '<br>');
 
     const stage = document.querySelector('.detail-bg-stage');
-    const isPlanet = ['solar', 'moon', 'star'].includes(body.category) && !['halley', 'sagittarius_a', 'crab_pulsar'].includes(body.id);
-    if (body.id === 'jupiter') {
-        stage.className = 'detail-bg-stage detail-jupiter-closeup';
-        stage.style.backgroundImage = '';
-    } else if (isPlanet) {
-        stage.className = 'detail-bg-stage cinema-planet-closeup';
-        stage.style.backgroundImage = "url('" + body.image + "')";
-    } else {
-        stage.className = 'detail-bg-stage cinema-cosmos-zoom';
-        stage.style.backgroundImage = "url('" + body.image + "')";
+    if (stage) {
+        const isPlanet = ['solar', 'moon', 'star'].includes(body.category) && !['halley', 'sagittarius_a', 'crab_pulsar'].includes(body.id);
+        if (body.id === 'jupiter') {
+            stage.className = 'detail-bg-stage detail-jupiter-closeup';
+            stage.style.backgroundImage = '';
+        } else if (isPlanet) {
+            stage.className = 'detail-bg-stage cinema-planet-closeup';
+            stage.style.backgroundImage = "url('" + body.image + "')";
+        } else {
+            stage.className = 'detail-bg-stage cinema-cosmos-zoom';
+            stage.style.backgroundImage = "url('" + body.image + "')";
+        }
     }
 })();
 </script>
-</body>
 HTML;
-$detail_html = str_replace('</body>', $detail_script, $detail_html);
+
+$detail_html = wrap_full_page($detail_raw, $css_content, $total_count, '天體觀測詳情 | ', $detail_script);
+$detail_html = str_replace('onclick="filterByCat(', 'onclick="window.location.href=\'index.html?cat=\'+', $detail_html);
+$detail_html = str_replace('); return false;"', '+ \'#archive\'; return false;"', $detail_html);
 file_put_contents("$out_dir/detail.html", $detail_html);
 
 // 2. 產生首頁 index.html
@@ -172,7 +178,6 @@ include __DIR__ . '/index.php';
 $index_raw = ob_get_clean();
 $index_raw = str_replace(['detail.php', 'index.php'], ['detail.html', 'index.html'], $index_raw);
 
-// 徹底把原本會觸發頁面跳轉的 <form ...>...</form> 替換成純靜態 div 搜尋列
 $static_search_html = <<<HTML
 <div id="static-search-box" class="row justify-content-center mt-4">
     <div class="col-12 col-md-6 col-lg-5">
@@ -185,9 +190,6 @@ $static_search_html = <<<HTML
 HTML;
 $index_raw = preg_replace('/<form\b[^>]*>.*?<\/form>/is', $static_search_html, $index_raw);
 
-$index_html = wrap_full_page($index_raw, $css_content, $total_count, '深空探索檔案館 | ');
-
-// 直接讀取卡片內的徽章文字 (.card-badge) 判斷分類，100% 精準且絕不會讓搜尋欄消失
 $index_script = <<<HTML
 <script>
 window.CURRENT_CAT = 'all';
@@ -244,10 +246,10 @@ window.filterByCat = function(cat) {
     }
 })();
 </script>
-</body>
 HTML;
-$index_html = str_replace('</body>', $index_script, $index_html);
+
+$index_html = wrap_full_page($index_raw, $css_content, $total_count, '深空探索檔案館 | ', $index_script);
 file_put_contents("$out_dir/index.html", $index_html);
 
-echo "<h1>成功！已徹底移除表單跳轉，搜尋欄與分類篩選皆可正常顯示與運作（" . date('H:i:s') . "）。</h1>";
+echo "<h1>成功！已直接注入所有互動腳本於 /docs（" . date('H:i:s') . "）。</h1>";
 ?>
