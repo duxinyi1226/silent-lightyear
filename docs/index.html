@@ -676,7 +676,6 @@ body {
     color: #475569;
     font-size: 0.85rem;
 }
-/* 強制穿透背景遮罩，不擋住點擊 */
 .hero-overlay, .hero-bg-zoom, .detail-bg-stage, .card-vignette, .planet-orbit-ring {
     pointer-events: none !important;
 }
@@ -684,27 +683,23 @@ body {
     z-index: 9999 !important;
     pointer-events: auto !important;
 }
-/* 確保搜尋欄點擊與輸入時永遠清晰可見、不會消失 */
-#archive form, #archive .cinema-input, #archive .btn-cinema-sm {
-    display: flex !important;
+#static-search-box, #static-search-input, #static-search-btn {
     opacity: 1 !important;
     visibility: visible !important;
     position: relative !important;
     z-index: 50 !important;
     pointer-events: auto !important;
 }
-#archive .cinema-input {
-    display: block !important;
-    background-color: rgba(11, 15, 23, 0.85) !important;
+#static-search-input {
+    background-color: rgba(11, 15, 23, 0.9) !important;
     color: #ffffff !important;
-    border-bottom: 1px solid rgba(56, 189, 248, 0.5) !important;
-    padding: 0.5rem 0.75rem !important;
+    border: 1px solid rgba(56, 189, 248, 0.45) !important;
+    padding: 0.55rem 0.9rem !important;
 }
-#archive .cinema-input:focus {
-    background-color: rgba(15, 23, 42, 0.95) !important;
-    color: #ffffff !important;
+#static-search-input:focus {
     border-color: #38bdf8 !important;
-    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2) !important;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.25) !important;
+    outline: none !important;
 }
     </style>
 </head>
@@ -758,20 +753,20 @@ body {
             <h2 class="section-title">全宇宙觀測目錄</h2>
             
             <!-- PHP 關鍵字搜尋列 -->
-            <form method="GET" action="index.html#archive" class="row justify-content-center mt-4">
-                <div class="col-12 col-md-6 col-lg-5">
-                    <div class="d-flex gap-2">
-                                                <input type="text" name="q" value="" class="form-control cinema-input" placeholder="搜尋天體名稱、黑洞、星雲或關鍵字...">
-                        <button type="submit" class="btn-cinema-sm text-nowrap">搜尋</button>
-                                            </div>
-                </div>
-            </form>
+            <div id="static-search-box" class="row justify-content-center mt-4">
+    <div class="col-12 col-md-6 col-lg-5">
+        <div class="d-flex gap-2">
+            <input type="text" id="static-search-input" class="form-control cinema-input" placeholder="搜尋天體名稱、黑洞、星雲或關鍵字..." oninput="applyArchiveFilter()" onkeydown="if(event.key==='Enter'){event.preventDefault(); applyArchiveFilter();}">
+            <button type="button" id="static-search-btn" class="btn-cinema-sm text-nowrap" onclick="applyArchiveFilter()">搜尋</button>
+        </div>
+    </div>
+</div>
         </div>
 
         <!-- 搜尋結果狀態提示 -->
                     <div class="row g-4 g-lg-5">
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=mercury" class="celestial-card" data-category="solar">
+                        <a href="detail.html?id=mercury" class="celestial-card">
                             <div class="card-img-wrapper planet-stage">
                                                                     <div class="planet-orbit-ring"></div>
                                     <div class="planet-globe  " style="--planet-zoom: 1.55;">
@@ -794,7 +789,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=venus" class="celestial-card" data-category="solar">
+                        <a href="detail.html?id=venus" class="celestial-card">
                             <div class="card-img-wrapper planet-stage">
                                                                     <div class="planet-orbit-ring"></div>
                                     <div class="planet-globe  " style="--planet-zoom: 1.48;">
@@ -817,7 +812,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=earth" class="celestial-card" data-category="solar">
+                        <a href="detail.html?id=earth" class="celestial-card">
                             <div class="card-img-wrapper planet-stage">
                                                                     <div class="planet-orbit-ring"></div>
                                     <div class="planet-globe  " style="--planet-zoom: 1.62;">
@@ -840,7 +835,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=mars" class="celestial-card" data-category="solar">
+                        <a href="detail.html?id=mars" class="celestial-card">
                             <div class="card-img-wrapper planet-stage">
                                                                     <div class="planet-orbit-ring"></div>
                                     <div class="planet-globe  " style="--planet-zoom: 1.6;">
@@ -863,7 +858,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=jupiter" class="celestial-card" data-category="solar">
+                        <a href="detail.html?id=jupiter" class="celestial-card">
                             <div class="card-img-wrapper planet-stage">
                                                                     <div class="planet-orbit-ring"></div>
                                     <div class="planet-globe  jupiter-3d-globe" style="--planet-zoom: 1.52;">
@@ -885,7 +880,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=saturn" class="celestial-card" data-category="solar">
+                        <a href="detail.html?id=saturn" class="celestial-card">
                             <div class="card-img-wrapper planet-stage">
                                                                     <div class="planet-orbit-ring"></div>
                                     <div class="planet-globe saturn-ring-mode " style="--planet-zoom: 1.15;">
@@ -908,7 +903,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=uranus" class="celestial-card" data-category="solar">
+                        <a href="detail.html?id=uranus" class="celestial-card">
                             <div class="card-img-wrapper planet-stage">
                                                                     <div class="planet-orbit-ring"></div>
                                     <div class="planet-globe  " style="--planet-zoom: 1.48;">
@@ -931,7 +926,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=neptune" class="celestial-card" data-category="solar">
+                        <a href="detail.html?id=neptune" class="celestial-card">
                             <div class="card-img-wrapper planet-stage">
                                                                     <div class="planet-orbit-ring"></div>
                                     <div class="planet-globe  " style="--planet-zoom: 1.5;">
@@ -954,7 +949,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=pluto" class="celestial-card" data-category="solar">
+                        <a href="detail.html?id=pluto" class="celestial-card">
                             <div class="card-img-wrapper planet-stage">
                                                                     <div class="planet-orbit-ring"></div>
                                     <div class="planet-globe  " style="--planet-zoom: 1.5;">
@@ -977,7 +972,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=moon" class="celestial-card" data-category="moon">
+                        <a href="detail.html?id=moon" class="celestial-card">
                             <div class="card-img-wrapper planet-stage">
                                                                     <div class="planet-orbit-ring"></div>
                                     <div class="planet-globe  " style="--planet-zoom: 1.38;">
@@ -1000,7 +995,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=europa" class="celestial-card" data-category="moon">
+                        <a href="detail.html?id=europa" class="celestial-card">
                             <div class="card-img-wrapper planet-stage">
                                                                     <div class="planet-orbit-ring"></div>
                                     <div class="planet-globe  " style="--planet-zoom: 1.55;">
@@ -1023,7 +1018,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=titan" class="celestial-card" data-category="moon">
+                        <a href="detail.html?id=titan" class="celestial-card">
                             <div class="card-img-wrapper planet-stage">
                                                                     <div class="planet-orbit-ring"></div>
                                     <div class="planet-globe  " style="--planet-zoom: 1.48;">
@@ -1046,7 +1041,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=halley" class="celestial-card" data-category="moon">
+                        <a href="detail.html?id=halley" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="哈雷彗星" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1066,7 +1061,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=sun" class="celestial-card" data-category="star">
+                        <a href="detail.html?id=sun" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1614642264762-d0a3b8bf3700?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="太陽" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1086,7 +1081,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=sirius" class="celestial-card" data-category="star">
+                        <a href="detail.html?id=sirius" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="天狼星" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1106,7 +1101,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=betelgeuse" class="celestial-card" data-category="star">
+                        <a href="detail.html?id=betelgeuse" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="參宿四" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1126,7 +1121,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=sagittarius_a" class="celestial-card" data-category="star">
+                        <a href="detail.html?id=sagittarius_a" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="人馬座 A*" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1146,7 +1141,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=crab_pulsar" class="celestial-card" data-category="star">
+                        <a href="detail.html?id=crab_pulsar" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="蟹狀星雲脈衝星" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1166,7 +1161,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=aries" class="celestial-card" data-category="zodiac">
+                        <a href="detail.html?id=aries" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="牡羊座" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1186,7 +1181,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=taurus" class="celestial-card" data-category="zodiac">
+                        <a href="detail.html?id=taurus" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1464802686167-b939a6910659?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="金牛座" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1206,7 +1201,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=gemini" class="celestial-card" data-category="zodiac">
+                        <a href="detail.html?id=gemini" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="雙子座" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1226,7 +1221,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=cancer" class="celestial-card" data-category="zodiac">
+                        <a href="detail.html?id=cancer" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1538370965046-79c0d6907d47?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="巨蟹座" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1246,7 +1241,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=leo" class="celestial-card" data-category="zodiac">
+                        <a href="detail.html?id=leo" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="獅子座" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1266,7 +1261,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=virgo" class="celestial-card" data-category="zodiac">
+                        <a href="detail.html?id=virgo" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="處女座（室女座）" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1286,7 +1281,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=libra" class="celestial-card" data-category="zodiac">
+                        <a href="detail.html?id=libra" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="天秤座" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1306,7 +1301,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=scorpius" class="celestial-card" data-category="zodiac">
+                        <a href="detail.html?id=scorpius" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="天蠍座" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1326,7 +1321,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=sagittarius" class="celestial-card" data-category="zodiac">
+                        <a href="detail.html?id=sagittarius" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1538370965046-79c0d6907d47?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="射手座（人馬座）" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1346,7 +1341,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=capricornus" class="celestial-card" data-category="zodiac">
+                        <a href="detail.html?id=capricornus" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="摩羯座（山羊座）" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1366,7 +1361,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=aquarius" class="celestial-card" data-category="zodiac">
+                        <a href="detail.html?id=aquarius" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1462332420958-a05d1e002413?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="水瓶座（寶瓶座）" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1386,7 +1381,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=pisces" class="celestial-card" data-category="zodiac">
+                        <a href="detail.html?id=pisces" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1543722530-d2c3201371e7?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="雙魚座" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1406,7 +1401,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=orion" class="celestial-card" data-category="constellation">
+                        <a href="detail.html?id=orion" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1543722530-d2c3201371e7?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="獵戶座" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1426,7 +1421,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=ursa_major" class="celestial-card" data-category="constellation">
+                        <a href="detail.html?id=ursa_major" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="大熊座（北斗七星）" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1446,7 +1441,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=cygnus" class="celestial-card" data-category="constellation">
+                        <a href="detail.html?id=cygnus" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1464802686167-b939a6910659?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="天鵝座（北十字）" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1466,7 +1461,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=cassiopeia" class="celestial-card" data-category="constellation">
+                        <a href="detail.html?id=cassiopeia" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="仙后座" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1486,7 +1481,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=crux" class="celestial-card" data-category="constellation">
+                        <a href="detail.html?id=crux" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="南十字座" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1506,7 +1501,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=milky_way" class="celestial-card" data-category="deep_sky">
+                        <a href="detail.html?id=milky_way" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1538370965046-79c0d6907d47?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="銀河系中心" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1526,7 +1521,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=andromeda" class="celestial-card" data-category="deep_sky">
+                        <a href="detail.html?id=andromeda" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="仙女座星系" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1546,7 +1541,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=pillars" class="celestial-card" data-category="deep_sky">
+                        <a href="detail.html?id=pillars" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="創生之柱" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1566,7 +1561,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=sombrero" class="celestial-card" data-category="deep_sky">
+                        <a href="detail.html?id=sombrero" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1462332420958-a05d1e002413?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="闊邊帽星系" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1586,7 +1581,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=pleiades" class="celestial-card" data-category="deep_sky">
+                        <a href="detail.html?id=pleiades" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1464802686167-b939a6910659?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="昴宿星團（七姊妹星團）" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1606,7 +1601,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=whirlpool" class="celestial-card" data-category="deep_sky">
+                        <a href="detail.html?id=whirlpool" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="渦狀星系" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1626,7 +1621,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=ring_nebula" class="celestial-card" data-category="deep_sky">
+                        <a href="detail.html?id=ring_nebula" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1462332420958-a05d1e002413?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="環狀星雲" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1646,7 +1641,7 @@ body {
                         </a>
                     </div>
                                                         <div class="col-12 col-md-6">
-                        <a href="detail.html?id=lobster_nebula" class="celestial-card" data-category="deep_sky">
+                        <a href="detail.html?id=lobster_nebula" class="celestial-card">
                             <div class="card-img-wrapper ">
                                                                     <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="龍蝦星雲" loading="lazy">
                                                                 <div class="card-vignette"></div>
@@ -1674,28 +1669,38 @@ body {
 <script>
 window.CURRENT_CAT = 'all';
 
+window.detectCardCategory = function(cardEl) {
+    const badge = cardEl.querySelector('.card-badge');
+    const bText = badge ? badge.textContent : '';
+    if (bText.includes('行星') && !bText.includes('行星狀')) return 'solar';
+    if (bText.includes('衛星') || bText.includes('彗星')) return 'moon';
+    if (bText.includes('主序星') || bText.includes('雙星') || bText.includes('超巨星') || bText.includes('黑洞') || bText.includes('中子星')) return 'star';
+    if (bText.includes('黃道')) return 'zodiac';
+    if (bText.includes('星座')) return 'constellation';
+    return 'deep_sky';
+};
+
 window.applyArchiveFilter = function() {
-    // 精準抓取「裡面有天體卡片」的外層欄位，絕對不會誤傷搜尋欄！
     const cardLinks = document.querySelectorAll('#archive .celestial-card');
-    const searchInput = document.querySelector('#archive input[name="q"]');
+    const searchInput = document.getElementById('static-search-input');
     const kw = (searchInput ? searchInput.value : '').trim().toLowerCase();
 
     cardLinks.forEach(cardLink => {
         const col = cardLink.parentElement;
         if (!col) return;
-        const cat = cardLink.getAttribute('data-category') || '';
+        const cat = window.detectCardCategory(cardLink);
         const fullText = cardLink.textContent.toLowerCase();
 
         const matchCat = (window.CURRENT_CAT === 'all') || (cat === window.CURRENT_CAT);
         const matchKw = !kw || fullText.includes(kw);
 
-        col.style.setProperty('display', (matchCat && matchKw) ? '' : 'none', 'important');
+        col.style.display = (matchCat && matchKw) ? '' : 'none';
     });
 };
 
 window.filterByCat = function(cat) {
     window.CURRENT_CAT = cat;
-    const searchInput = document.querySelector('#archive input[name="q"]');
+    const searchInput = document.getElementById('static-search-input');
     if (cat === 'all' && searchInput) {
         searchInput.value = '';
     }
@@ -1708,28 +1713,6 @@ window.filterByCat = function(cat) {
         navCollapse.classList.remove('show');
     }
 };
-
-// 阻止搜尋表單重新整理頁面，改為原地過濾
-document.addEventListener('submit', function(e) {
-    if (e.target && e.target.closest('#archive')) {
-        e.preventDefault();
-        window.applyArchiveFilter();
-    }
-});
-
-// 阻止按下搜尋按鈕時觸發預設提交
-document.addEventListener('click', function(e) {
-    if (e.target && e.target.closest('#archive button')) {
-        e.preventDefault();
-        window.applyArchiveFilter();
-    }
-});
-
-document.addEventListener('input', function(e) {
-    if (e.target && e.target.matches('#archive input[name="q"]')) {
-        window.applyArchiveFilter();
-    }
-});
 
 (function() {
     const params = new URLSearchParams(window.location.search);

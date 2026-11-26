@@ -32,7 +32,6 @@ function wrap_full_page($body_html, $css_content, $total_count, $title_prefix = 
     if (stripos($body_html, '</body>') !== false) {
         $body_html = substr($body_html, 0, stripos($body_html, '</body>'));
     }
-
     if (stripos($body_html, '</nav>') !== false) {
         $body_html = substr($body_html, stripos($body_html, '</nav>') + 6);
     }
@@ -76,7 +75,6 @@ HTML;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
 {$css_content}
-/* 強制穿透背景遮罩，不擋住點擊 */
 .hero-overlay, .hero-bg-zoom, .detail-bg-stage, .card-vignette, .planet-orbit-ring {
     pointer-events: none !important;
 }
@@ -84,27 +82,23 @@ HTML;
     z-index: 9999 !important;
     pointer-events: auto !important;
 }
-/* 確保搜尋欄點擊與輸入時永遠清晰可見、不會消失 */
-#archive form, #archive .cinema-input, #archive .btn-cinema-sm {
-    display: flex !important;
+#static-search-box, #static-search-input, #static-search-btn {
     opacity: 1 !important;
     visibility: visible !important;
     position: relative !important;
     z-index: 50 !important;
     pointer-events: auto !important;
 }
-#archive .cinema-input {
-    display: block !important;
-    background-color: rgba(11, 15, 23, 0.85) !important;
+#static-search-input {
+    background-color: rgba(11, 15, 23, 0.9) !important;
     color: #ffffff !important;
-    border-bottom: 1px solid rgba(56, 189, 248, 0.5) !important;
-    padding: 0.5rem 0.75rem !important;
+    border: 1px solid rgba(56, 189, 248, 0.45) !important;
+    padding: 0.55rem 0.9rem !important;
 }
-#archive .cinema-input:focus {
-    background-color: rgba(15, 23, 42, 0.95) !important;
-    color: #ffffff !important;
+#static-search-input:focus {
     border-color: #38bdf8 !important;
-    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2) !important;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.25) !important;
+    outline: none !important;
 }
     </style>
 </head>
@@ -178,41 +172,58 @@ include __DIR__ . '/index.php';
 $index_raw = ob_get_clean();
 $index_raw = str_replace(['detail.php', 'index.php'], ['detail.html', 'index.html'], $index_raw);
 
-// 把每個天體的 category 直接寫進卡片標籤上
-foreach ($celestial_bodies as $b) {
-    $search_str = 'href="detail.html?id=' . urlencode($b['id']) . '" class="celestial-card"';
-    $replace_str = 'href="detail.html?id=' . urlencode($b['id']) . '" class="celestial-card" data-category="' . htmlspecialchars($b['category']) . '"';
-    $index_raw = str_replace($search_str, $replace_str, $index_raw);
-}
+// 徹底把原本會觸發頁面跳轉的 <form ...>...</form> 替換成純靜態 div 搜尋列
+$static_search_html = <<<HTML
+<div id="static-search-box" class="row justify-content-center mt-4">
+    <div class="col-12 col-md-6 col-lg-5">
+        <div class="d-flex gap-2">
+            <input type="text" id="static-search-input" class="form-control cinema-input" placeholder="搜尋天體名稱、黑洞、星雲或關鍵字..." oninput="applyArchiveFilter()" onkeydown="if(event.key==='Enter'){event.preventDefault(); applyArchiveFilter();}">
+            <button type="button" id="static-search-btn" class="btn-cinema-sm text-nowrap" onclick="applyArchiveFilter()">搜尋</button>
+        </div>
+    </div>
+</div>
+HTML;
+$index_raw = preg_replace('/<form\b[^>]*>.*?<\/form>/is', $static_search_html, $index_raw);
 
 $index_html = wrap_full_page($index_raw, $css_content, $total_count, '深空探索檔案館 | ');
 
+// 直接讀取卡片內的徽章文字 (.card-badge) 判斷分類，100% 精準且絕不會讓搜尋欄消失
 $index_script = <<<HTML
 <script>
 window.CURRENT_CAT = 'all';
 
+window.detectCardCategory = function(cardEl) {
+    const badge = cardEl.querySelector('.card-badge');
+    const bText = badge ? badge.textContent : '';
+    if (bText.includes('行星') && !bText.includes('行星狀')) return 'solar';
+    if (bText.includes('衛星') || bText.includes('彗星')) return 'moon';
+    if (bText.includes('主序星') || bText.includes('雙星') || bText.includes('超巨星') || bText.includes('黑洞') || bText.includes('中子星')) return 'star';
+    if (bText.includes('黃道')) return 'zodiac';
+    if (bText.includes('星座')) return 'constellation';
+    return 'deep_sky';
+};
+
 window.applyArchiveFilter = function() {
-    // 精準抓取「裡面有天體卡片」的外層欄位，絕對不會誤傷搜尋欄！
     const cardLinks = document.querySelectorAll('#archive .celestial-card');
-    const searchInput = document.querySelector('#archive input[name="q"]');
+    const searchInput = document.getElementById('static-search-input');
     const kw = (searchInput ? searchInput.value : '').trim().toLowerCase();
 
     cardLinks.forEach(cardLink => {
         const col = cardLink.parentElement;
         if (!col) return;
-        const cat = cardLink.getAttribute('data-category') || '';
+        const cat = window.detectCardCategory(cardLink);
         const fullText = cardLink.textContent.toLowerCase();
 
         const matchCat = (window.CURRENT_CAT === 'all') || (cat === window.CURRENT_CAT);
         const matchKw = !kw || fullText.includes(kw);
 
-        col.style.setProperty('display', (matchCat && matchKw) ? '' : 'none', 'important');
+        col.style.display = (matchCat && matchKw) ? '' : 'none';
     });
 };
 
 window.filterByCat = function(cat) {
     window.CURRENT_CAT = cat;
-    const searchInput = document.querySelector('#archive input[name="q"]');
+    const searchInput = document.getElementById('static-search-input');
     if (cat === 'all' && searchInput) {
         searchInput.value = '';
     }
@@ -226,28 +237,6 @@ window.filterByCat = function(cat) {
     }
 };
 
-// 阻止搜尋表單重新整理頁面，改為原地過濾
-document.addEventListener('submit', function(e) {
-    if (e.target && e.target.closest('#archive')) {
-        e.preventDefault();
-        window.applyArchiveFilter();
-    }
-});
-
-// 阻止按下搜尋按鈕時觸發預設提交
-document.addEventListener('click', function(e) {
-    if (e.target && e.target.closest('#archive button')) {
-        e.preventDefault();
-        window.applyArchiveFilter();
-    }
-});
-
-document.addEventListener('input', function(e) {
-    if (e.target && e.target.matches('#archive input[name="q"]')) {
-        window.applyArchiveFilter();
-    }
-});
-
 (function() {
     const params = new URLSearchParams(window.location.search);
     if (params.has('cat')) {
@@ -260,5 +249,5 @@ HTML;
 $index_html = str_replace('</body>', $index_script, $index_html);
 file_put_contents("$out_dir/index.html", $index_html);
 
-echo "<h1>成功！已修復搜尋欄可見度與精準卡片過濾（" . date('H:i:s') . "）。</h1>";
+echo "<h1>成功！已徹底移除表單跳轉，搜尋欄與分類篩選皆可正常顯示與運作（" . date('H:i:s') . "）。</h1>";
 ?>
