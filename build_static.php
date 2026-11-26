@@ -19,12 +19,11 @@ if (is_dir(__DIR__ . '/assets')) {
     copy_dir(__DIR__ . '/assets', "$out_dir/assets");
 }
 
-// 讀取本地 style.css
 $css_content = file_exists(__DIR__ . '/assets/style.css') ? file_get_contents(__DIR__ . '/assets/style.css') : '';
 $total_count = count($celestial_bodies);
-$json_bodies = json_encode($celestial_bodies, JSON_UNESCAPED_UNICODE);
+// 安全編碼 JSON，防止 </script> 或特殊引號破壞 HTML
+$json_bodies = json_encode($celestial_bodies, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
 
-// 強制組裝完整且絕對不會遺失的 <head> 與導覽列 HTML
 function wrap_full_page($body_html, $css_content, $total_count, $title_prefix = '') {
     if (stripos($body_html, '<nav') !== false) {
         $body_html = substr($body_html, stripos($body_html, '<nav'));
@@ -49,13 +48,13 @@ function wrap_full_page($body_html, $css_content, $total_count, $title_prefix = 
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav align-items-center gap-2 gap-xl-3 text-center py-3 py-xl-0">
-                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html#archive">全部 ({$total_count})</a></li>
-                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html?type=solar#archive">行星</a></li>
-                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html?type=moon#archive">衛星與彗星</a></li>
-                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html?type=star#archive">恆星與黑洞</a></li>
-                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html?type=zodiac#archive">黃道十二星座</a></li>
-                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html?type=constellation#archive">夜空星座</a></li>
-                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html?type=deep_sky#archive">星系與星雲</a></li>
+                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html#archive" data-filter="all">全部 ({$total_count})</a></li>
+                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html?type=solar#archive" data-filter="solar">行星</a></li>
+                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html?type=moon#archive" data-filter="moon">衛星與彗星</a></li>
+                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html?type=star#archive" data-filter="star">恆星與黑洞</a></li>
+                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html?type=zodiac#archive" data-filter="zodiac">黃道十二星座</a></li>
+                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html?type=constellation#archive" data-filter="constellation">夜空星座</a></li>
+                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html?type=deep_sky#archive" data-filter="deep_sky">星系與星雲</a></li>
             </ul>
         </div>
     </div>
@@ -75,7 +74,6 @@ HTML;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
 {$css_content}
-/* 確保導覽列、按鈕與天體卡片永遠在深空背景遮罩上方，不被擋住點擊 */
 .cinema-nav { z-index: 1050 !important; }
 .hero-content, .archive-section, .btn-cinema, .btn-cinema-sm, .celestial-card, .detail-content { position: relative; z-index: 10; }
 .hero-overlay, .hero-bg-zoom, .detail-bg-stage, .card-vignette { pointer-events: none !important; }
@@ -99,12 +97,13 @@ $detail_raw = str_replace('index.php', 'index.html', $detail_raw);
 $detail_html = wrap_full_page($detail_raw, $css_content, $total_count, '天體觀測詳情 | ');
 
 $detail_script = <<<HTML
+<script id="celestial-data" type="application/json">{$json_bodies}</script>
 <script>
-const CELESTIAL_DATA = {$json_bodies};
 document.addEventListener('DOMContentLoaded', () => {
+    const rawData = JSON.parse(document.getElementById('celestial-data').textContent);
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id') || 'saturn';
-    const body = CELESTIAL_DATA[id] || CELESTIAL_DATA['saturn'];
+    const body = rawData[id] || Object.values(rawData).find(x => x.id === id) || rawData['saturn'];
     
     document.title = body.name_zh + ' ' + body.name_en + ' | 寂靜光年 SILENT LIGHTYEAR';
     document.querySelector('.detail-category').textContent = body.category_zh;
@@ -149,38 +148,60 @@ $index_raw = str_replace(['detail.php', 'index.php'], ['detail.html', 'index.htm
 $index_html = wrap_full_page($index_raw, $css_content, $total_count, '深空探索檔案館 | ');
 
 $index_script = <<<HTML
+<script id="celestial-data" type="application/json">{$json_bodies}</script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+    const rawData = JSON.parse(document.getElementById('celestial-data').textContent);
+    const dataMap = {};
+    Object.values(rawData).forEach(item => { dataMap[item.id] = item; });
+
     const cards = Array.from(document.querySelectorAll('#archive .col-12.col-md-6'));
     const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-    const searchForm = document.querySelector('form');
-    const searchInput = document.querySelector('input[name="q"]');
+    const searchForm = document.querySelector('#archive form');
+    const searchInput = document.querySelector('#archive input[name="q"]');
     let currentType = 'all';
 
     function filterCards() {
         const kw = (searchInput ? searchInput.value : '').trim().toLowerCase();
         cards.forEach(col => {
-            const href = col.querySelector('a').getAttribute('href');
-            const id = new URLSearchParams(href.split('?')[1]).get('id');
-            const item = {$json_bodies}[id];
-            if (!item) return;
-            const matchType = currentType === 'all' || item.category === currentType;
-            const text = (item.name_zh + item.name_en + item.category_zh + item.summary + item.description).toLowerCase();
-            const matchKw = !kw || text.includes(kw);
+            const link = col.querySelector('a');
+            const href = link ? link.getAttribute('href') : '';
+            const id = new URLSearchParams(href.split('?')[1] || '').get('id');
+            const item = dataMap[id];
+            
+            let matchType = true;
+            let matchKw = true;
+
+            if (item) {
+                matchType = (currentType === 'all') || (item.category === currentType);
+                const text = (item.name_zh + ' ' + item.name_en + ' ' + item.category_zh + ' ' + item.summary + ' ' + item.description).toLowerCase();
+                matchKw = !kw || text.includes(kw);
+            } else {
+                const fallbackText = col.textContent.toLowerCase();
+                matchKw = !kw || fallbackText.includes(kw);
+            }
+
             col.style.display = (matchType && matchKw) ? '' : 'none';
         });
     }
 
+    // 1. 綁定上方導覽列所有分類按鈕（包含「全部」）
     navLinks.forEach(link => {
         link.addEventListener('click', e => {
             const href = link.getAttribute('href') || '';
-            if (href.includes('#archive')) {
+            const explicitFilter = link.getAttribute('data-filter');
+            
+            if (explicitFilter || href.includes('#archive')) {
                 e.preventDefault();
-                if (href.includes('type=')) {
+                if (explicitFilter) {
+                    currentType = explicitFilter;
+                } else if (href.includes('type=')) {
                     currentType = new URLSearchParams(href.split('?')[1].split('#')[0]).get('type') || 'all';
                 } else {
                     currentType = 'all';
-                    if (searchInput) searchInput.value = '';
+                }
+                if (currentType === 'all' && searchInput) {
+                    searchInput.value = '';
                 }
                 filterCards();
                 const archiveEl = document.getElementById('archive');
@@ -194,12 +215,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // 2. 綁定搜尋欄即時過濾與送出按鈕
     if (searchForm) {
         searchForm.addEventListener('submit', e => {
             e.preventDefault();
             filterCards();
         });
-        if (searchInput) searchInput.addEventListener('input', filterCards);
+    }
+    if (searchInput) {
+        searchInput.addEventListener('input', filterCards);
+        searchInput.addEventListener('keyup', filterCards);
+    }
+
+    // 支援從詳情頁點擊分類跳回首頁時自動套用該分類
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('type')) {
+        currentType = urlParams.get('type') || 'all';
+        filterCards();
     }
 });
 </script>
@@ -208,5 +240,5 @@ HTML;
 $index_html = str_replace('</body>', $index_script, $index_html);
 file_put_contents("$out_dir/index.html", $index_html);
 
-echo "<h1>成功！已重建完整頁面、按鈕點擊修正與 CSS（" . strlen($css_content) . " bytes）於 /docs 資料夾。</h1>";
+echo "<h1>成功！已修復導覽列與即時搜尋功能於 /docs 資料夾。</h1>";
 ?>
