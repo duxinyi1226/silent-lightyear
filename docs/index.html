@@ -1,0 +1,939 @@
+
+<!-- 1. 電影感滿版主視覺 Hero Section (含自動放大縮小星空層) -->
+<header class="hero-section">
+    <div class="hero-bg-zoom" style="background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2048&auto=format&fit=crop');"></div>
+    <div class="hero-overlay"></div>
+    <div class="container hero-content text-center">
+        <p class="hero-subtitle">A JOURNEY THROUGH THE UNIVERSE</p>
+        <h1 class="hero-title">寂靜光年</h1>
+        <p class="hero-en-title">SILENT LIGHTYEAR</p>
+        <p class="hero-desc mx-auto">跨越無聲的深空，凝視百億年前抵達的星光信號。</p>
+        <div class="mt-5">
+            <a href="#archive" class="btn-cinema">進入觀測檔案 EXPLORE</a>
+        </div>
+    </div>
+    <div class="scroll-indicator">
+        <span>SCROLL</span>
+        <div class="line"></div>
+    </div>
+</header>
+
+<!-- 2. 星際檔案畫廊 -->
+<section id="archive" class="archive-section py-5">
+    <div class="container py-lg-5">
+        <div class="text-center mb-5">
+            <span class="section-tag">CELESTIAL ARCHIVE // TOTAL 43 RECORDS</span>
+            <h2 class="section-title">全宇宙觀測目錄</h2>
+            
+            <!-- PHP 關鍵字搜尋列 -->
+            <form method="GET" action="index.html#archive" class="row justify-content-center mt-4">
+                <div class="col-12 col-md-6 col-lg-5">
+                    <div class="d-flex gap-2">
+                                                <input type="text" name="q" value="" class="form-control cinema-input" placeholder="搜尋天體名稱、黑洞、星雲或關鍵字...">
+                        <button type="submit" class="btn-cinema-sm text-nowrap">搜尋</button>
+                                            </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- 搜尋結果狀態提示 -->
+                    <div class="row g-4 g-lg-5">
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=mercury" class="celestial-card">
+                            <div class="card-img-wrapper planet-stage">
+                                                                    <div class="planet-orbit-ring"></div>
+                                    <div class="planet-globe  " style="--planet-zoom: 1.55;">
+                                                                                    <img src="https://images.unsplash.com/photo-1614728423169-3f65fd722b7e?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="水星" loading="lazy">
+                                                                            </div>
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">類地行星 / 太陽系第一行星</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">水星</h3>
+                                    <span class="card-title-en">MERCURY</span>
+                                </div>
+                                <p class="card-summary mb-3">距離太陽最近的孤寂岩石世界，地表布滿撞擊隕石坑，晝夜溫差高達攝氏六百度。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：5,790 萬公里（距太陽）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=venus" class="celestial-card">
+                            <div class="card-img-wrapper planet-stage">
+                                                                    <div class="planet-orbit-ring"></div>
+                                    <div class="planet-globe  " style="--planet-zoom: 1.48;">
+                                                                                    <img src="https://images.unsplash.com/photo-1614313913007-2b4ae8ce32d6?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="金星" loading="lazy">
+                                                                            </div>
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">類地行星 / 太陽系第二行星</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">金星</h3>
+                                    <span class="card-title-en">VENUS</span>
+                                </div>
+                                <p class="card-summary mb-3">披著濃厚硫酸雲層的灼熱星體，溫室效應使其地表溫度超越水星，卻在地球夜空中綻放最耀眼的銀白光芒。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：1.08 億公里（距太陽）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=earth" class="celestial-card">
+                            <div class="card-img-wrapper planet-stage">
+                                                                    <div class="planet-orbit-ring"></div>
+                                    <div class="planet-globe  " style="--planet-zoom: 1.62;">
+                                                                                    <img src="https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="地球" loading="lazy">
+                                                                            </div>
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">類地行星 / 生命搖籃</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">地球</h3>
+                                    <span class="card-title-en">EARTH</span>
+                                </div>
+                                <p class="card-summary mb-3">無垠黑暗中唯一已知孕育生命的蔚藍綠洲，液態海洋覆蓋超過七成表面，被薄薄的藍色大氣溫柔守護。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：1.496 億公里（1 天文單位）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=mars" class="celestial-card">
+                            <div class="card-img-wrapper planet-stage">
+                                                                    <div class="planet-orbit-ring"></div>
+                                    <div class="planet-globe  " style="--planet-zoom: 1.6;">
+                                                                                    <img src="https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="火星" loading="lazy">
+                                                                            </div>
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">類地行星 / 太陽系第四行星</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">火星</h3>
+                                    <span class="card-title-en">MARS</span>
+                                </div>
+                                <p class="card-summary mb-3">覆蓋著氧化鐵的寂靜紅色荒漠，擁有太陽系最高聳的奧林帕斯山與橫貫星球的巨大峽谷。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：2.25 億公里（平均）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=jupiter" class="celestial-card">
+                            <div class="card-img-wrapper planet-stage">
+                                                                    <div class="planet-orbit-ring"></div>
+                                    <div class="planet-globe  jupiter-3d-globe" style="--planet-zoom: 1.52;">
+                                                                            </div>
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">氣態巨行星 / 太陽系之王</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">木星</h3>
+                                    <span class="card-title-en">JUPITER</span>
+                                </div>
+                                <p class="card-summary mb-3">質量為其餘所有行星總和兩倍半的氣態巨無霸，表面翻湧著持續數百年的超級風暴「大紅斑」。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：7.78 億公里（距太陽）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=saturn" class="celestial-card">
+                            <div class="card-img-wrapper planet-stage">
+                                                                    <div class="planet-orbit-ring"></div>
+                                    <div class="planet-globe saturn-ring-mode " style="--planet-zoom: 1.15;">
+                                                                                    <img src="https://images.unsplash.com/photo-1614732414444-096e5f1122d5?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="土星" loading="lazy">
+                                                                            </div>
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">氣態巨行星 / 環狀巨星</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">土星</h3>
+                                    <span class="card-title-en">SATURN</span>
+                                </div>
+                                <p class="card-summary mb-3">太陽系中最具戲劇張力的環狀巨星，由無數冰晶與岩石碎片編織出橫跨數十萬公里的璀璨光環。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：14.3 億公里（距太陽）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=uranus" class="celestial-card">
+                            <div class="card-img-wrapper planet-stage">
+                                                                    <div class="planet-orbit-ring"></div>
+                                    <div class="planet-globe  " style="--planet-zoom: 1.48;">
+                                                                                    <img src="https://images.unsplash.com/photo-1614732484003-ef9881555dc3?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="天王星" loading="lazy">
+                                                                            </div>
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">冰巨行星 / 側躺自轉的行星</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">天王星</h3>
+                                    <span class="card-title-en">URANUS</span>
+                                </div>
+                                <p class="card-summary mb-3">散發著夢幻青藍色微光的冰巨行星，自轉軸傾斜高達 98 度，彷彿在軌道上側身滾動前行。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：28.7 億公里（距太陽）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=neptune" class="celestial-card">
+                            <div class="card-img-wrapper planet-stage">
+                                                                    <div class="planet-orbit-ring"></div>
+                                    <div class="planet-globe  " style="--planet-zoom: 1.5;">
+                                                                                    <img src="https://images.unsplash.com/photo-1614314107768-6018061b5b72?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="海王星" loading="lazy">
+                                                                            </div>
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">冰巨行星 / 太陽系邊境</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">海王星</h3>
+                                    <span class="card-title-en">NEPTUNE</span>
+                                </div>
+                                <p class="card-summary mb-3">盤踞在太陽系最深處的深藍色風暴世界，吹拂著時速超過兩千公里的太陽系最強超音速狂風。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：45 億公里（距太陽）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=pluto" class="celestial-card">
+                            <div class="card-img-wrapper planet-stage">
+                                                                    <div class="planet-orbit-ring"></div>
+                                    <div class="planet-globe  " style="--planet-zoom: 1.5;">
+                                                                                    <img src="https://images.unsplash.com/photo-1614313913007-2b4ae8ce32d6?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="冥王星" loading="lazy">
+                                                                            </div>
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">矮行星 / 古柏帶守望者</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">冥王星</h3>
+                                    <span class="card-title-en">PLUTO</span>
+                                </div>
+                                <p class="card-summary mb-3">遊走於太陽系邊緣古柏帶的冰封世界，表面鑲嵌著一片巨大的心形氮冰平原「湯博區」。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：59 億公里（平均距太陽）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=moon" class="celestial-card">
+                            <div class="card-img-wrapper planet-stage">
+                                                                    <div class="planet-orbit-ring"></div>
+                                    <div class="planet-globe  " style="--planet-zoom: 1.38;">
+                                                                                    <img src="https://images.unsplash.com/photo-1522030299830-16b8d3d049fe?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="月球" loading="lazy">
+                                                                            </div>
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">地球唯一天然衛星</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">月球</h3>
+                                    <span class="card-title-en">THE MOON (LUNA)</span>
+                                </div>
+                                <p class="card-summary mb-3">夜空中最溫柔的銀白伴侶，以潮汐鎖定永遠將同一面朝向地球，默默牽引著地球海洋的潮起潮落。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：38.4 萬公里</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=europa" class="celestial-card">
+                            <div class="card-img-wrapper planet-stage">
+                                                                    <div class="planet-orbit-ring"></div>
+                                    <div class="planet-globe  " style="--planet-zoom: 1.55;">
+                                                                                    <img src="https://images.unsplash.com/photo-1614728423169-3f65fd722b7e?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="木衛二（歐羅巴）" loading="lazy">
+                                                                            </div>
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">伽利略衛星 / 冰下海洋世界</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">木衛二（歐羅巴）</h3>
+                                    <span class="card-title-en">EUROPA</span>
+                                </div>
+                                <p class="card-summary mb-3">表面覆蓋著縱橫交錯紅棕色裂紋的純淨冰球，厚重冰殼之下隱藏著水量超越地球兩倍的液態深海。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：6.28 億公里（距地球）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=titan" class="celestial-card">
+                            <div class="card-img-wrapper planet-stage">
+                                                                    <div class="planet-orbit-ring"></div>
+                                    <div class="planet-globe  " style="--planet-zoom: 1.48;">
+                                                                                    <img src="https://images.unsplash.com/photo-1614732414444-096e5f1122d5?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="土衛六（泰坦）" loading="lazy">
+                                                                            </div>
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">土星最大衛星 / 濃霧星球</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">土衛六（泰坦）</h3>
+                                    <span class="card-title-en">TITAN</span>
+                                </div>
+                                <p class="card-summary mb-3">太陽系唯一擁有濃厚大氣層與穩定地表液體的衛星，只不過那裡流淌的不是水，而是液態甲烷與乙烷湖泊。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：14.3 億公里</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=halley" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="哈雷彗星" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">短週期彗星 / 深空信使</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">哈雷彗星</h3>
+                                    <span class="card-title-en">1P/HALLEY</span>
+                                </div>
+                                <p class="card-summary mb-3">每隔 75 至 76 年造訪地球夜空一次的歷史名彗，拖曳著數千萬公里長的離子尾與塵埃尾劃破深空。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：週期性穿梭內外太陽系</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=sun" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1614642264762-d0a3b8bf3700?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="太陽" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">G型主序星（黃矮星）</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">太陽</h3>
+                                    <span class="card-title-en">THE SUN (SOL)</span>
+                                </div>
+                                <p class="card-summary mb-3">佔據太陽系總質量 99.86% 的熾熱電漿巨球，每秒將六億噸氫融合成氦，為地球帶來光與熱。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：1.496 億公里</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=sirius" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="天狼星" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">雙星系統 / 夜空最亮恆星</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">天狼星</h3>
+                                    <span class="card-title-en">SIRIUS A &amp; B</span>
+                                </div>
+                                <p class="card-summary mb-3">大犬座心臟處閃耀著鑽石般藍白光芒的冬季夜空之王，身旁還伴隨著一顆高密度的白矮星伴星。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：8.6 光年</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=betelgeuse" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="參宿四" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">紅超巨星 / 獵戶座右肩</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">參宿四</h3>
+                                    <span class="card-title-en">BETELGEUSE</span>
+                                </div>
+                                <p class="card-summary mb-3">步入生命晚期的龐大紅超巨星，若將它放在太陽的位置，其外層大氣將直接吞沒火星甚至木星軌道。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：約 548 光年</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=sagittarius_a" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="人馬座 A*" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">超大質量黑洞 / 銀河心臟</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">人馬座 A*</h3>
+                                    <span class="card-title-en">SAGITTARIUS A*</span>
+                                </div>
+                                <p class="card-summary mb-3">潛伏在銀河系正中心的時空深淵，質量相當於四百三十萬顆太陽，連光線也無法逃離它的事件視界。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：26,670 光年</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=crab_pulsar" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="蟹狀星雲脈衝星" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">中子星 / 宇宙燈塔</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">蟹狀星雲脈衝星</h3>
+                                    <span class="card-title-en">CRAB PULSAR (PSR B0531+21)</span>
+                                </div>
+                                <p class="card-summary mb-3">每秒高速自轉三十圈的超高密度中子星，宛如宇宙深處精準無比的燈塔，發出規律的電磁波束。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：6,500 光年</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=aries" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="牡羊座" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">黃道十二星座 / 秋季星群</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">牡羊座</h3>
+                                    <span class="card-title-en">ARIES</span>
+                                </div>
+                                <p class="card-summary mb-3">黃道帶的第一個星座，幾顆微弱卻俐落的亮星勾勒出奔馳的公羊輪廓，見證著春分點的歷史變遷。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：65.8 光年（婁宿三）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=taurus" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1464802686167-b939a6910659?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="金牛座" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">黃道十二星座 / 冬季星群</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">金牛座</h3>
+                                    <span class="card-title-en">TAURUS</span>
+                                </div>
+                                <p class="card-summary mb-3">冬夜銀河邊緣的巨牛，V 字形的「畢宿星團」構成牛臉，肩上背負著璀璨如藍寶石的昴宿星團。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：65 光年（畢宿五）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=gemini" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="雙子座" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">黃道十二星座 / 冬季星群</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">雙子座</h3>
+                                    <span class="card-title-en">GEMINI</span>
+                                </div>
+                                <p class="card-summary mb-3">並肩立於冬夜銀河旁的雙胞胎兄弟，由北河二與北河三兩顆亮星領銜，構成對稱的長方形星陣。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：33.7 光年（北河三）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=cancer" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1538370965046-79c0d6907d47?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="巨蟹座" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">黃道十二星座 / 春季星群</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">巨蟹座</h3>
+                                    <span class="card-title-en">CANCER</span>
+                                </div>
+                                <p class="card-summary mb-3">黃道十二星座中最幽暗低調的成員，中心卻藏著肉眼可見的著名疏散星團「鬼宿星團（蜂巢星團）」。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：577 光年（鬼宿星團）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=leo" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="獅子座" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">黃道十二星座 / 春季星群</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">獅子座</h3>
+                                    <span class="card-title-en">LEO</span>
+                                </div>
+                                <p class="card-summary mb-3">昂首闊步於春季夜空的百獸之王，頭部由六顆星組成的反問號「鐮刀」星群極具王者氣勢。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：79 光年（軒轅十四）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=virgo" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="處女座（室女座）" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">黃道十二星座 / 春季星群</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">處女座（室女座）</h3>
+                                    <span class="card-title-en">VIRGO</span>
+                                </div>
+                                <p class="card-summary mb-3">全天面積第二大的龐大星座，純白熾熱的「角宿一」與大角星、五帝座一共同組成春季大三角。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：250 光年（角宿一）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=libra" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="天秤座" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">黃道十二星座 / 夏季星群</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">天秤座</h3>
+                                    <span class="card-title-en">LIBRA</span>
+                                </div>
+                                <p class="card-summary mb-3">黃道帶中唯一代表無生命物體的星座，四顆主星構成一架懸掛在初夏夜空中的優雅天平。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：77 光年（氐宿一）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=scorpius" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="天蠍座" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">黃道十二星座 / 夏季星群</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">天蠍座</h3>
+                                    <span class="card-title-en">SCORPIUS</span>
+                                </div>
+                                <p class="card-summary mb-3">盤踞在銀河中心方向的夏夜巨蠍，心臟處閃耀著如同火星般赤紅的紅超巨星「心宿二」。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：550 光年（心宿二）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=sagittarius" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1538370965046-79c0d6907d47?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="射手座（人馬座）" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">黃道十二星座 / 夏季星群</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">射手座（人馬座）</h3>
+                                    <span class="card-title-en">SAGITTARIUS</span>
+                                </div>
+                                <p class="card-summary mb-3">拉弓瞄準天蠍心臟的半人馬射手，其箭尖直指銀河系最璀璨的核心與超大質量黑洞所在。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：26,000 光年（銀河中心方向）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=capricornus" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="摩羯座（山羊座）" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">黃道十二星座 / 秋季星群</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">摩羯座（山羊座）</h3>
+                                    <span class="card-title-en">CAPRICORNUS</span>
+                                </div>
+                                <p class="card-summary mb-3">神話中上半身為山羊、下半身為魚尾的古老海山羊，主星構成一個倒三角形的微笑輪廓。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：39 光年（壘壁陣四）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=aquarius" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1462332420958-a05d1e002413?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="水瓶座（寶瓶座）" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">黃道十二星座 / 秋季星群</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">水瓶座（寶瓶座）</h3>
+                                    <span class="card-title-en">AQUARIUS</span>
+                                </div>
+                                <p class="card-summary mb-3">傾倒著生命之水的美少年，由四顆星組成的「Y」字形水瓶口，向南天傾瀉出涓涓細流般的星鏈。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：520 光年（危宿一）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=pisces" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1543722530-d2c3201371e7?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="雙魚座" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">黃道十二星座 / 秋季星群</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">雙魚座</h3>
+                                    <span class="card-title-en">PISCES</span>
+                                </div>
+                                <p class="card-summary mb-3">兩條以長長絲帶相連的游魚在秋夜星空中悠游，現代天文學的「春分點」正坐落於此。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：294 光年（外屏七）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=orion" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1543722530-d2c3201371e7?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="獵戶座" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">冬季代表星座</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">獵戶座</h3>
+                                    <span class="card-title-en">ORION</span>
+                                </div>
+                                <p class="card-summary mb-3">夜空中最醒目的獵人輪廓，腰帶上的三顆藍超巨星指引著恆星誕生的搖籃——獵戶座大星雲。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：1,344 光年（獵戶座大星雲）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=ursa_major" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="大熊座（北斗七星）" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">北天拱極星座</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">大熊座（北斗七星）</h3>
+                                    <span class="card-title-en">URSA MAJOR</span>
+                                </div>
+                                <p class="card-summary mb-3">千百年來為無數航海家與旅人指引北極星方向的永恆指標，勺柄隨四季更迭在夜空中緩緩旋轉。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：78 至 124 光年（北斗七星）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=cygnus" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1464802686167-b939a6910659?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="天鵝座（北十字）" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">夏季銀河星座</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">天鵝座（北十字）</h3>
+                                    <span class="card-title-en">CYGNUS</span>
+                                </div>
+                                <p class="card-summary mb-3">展翅翱翔於夏季銀河正中央的聖潔天鵝，與織女星、牛郎星共同編織出著名的「夏季大三角」。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：2,600 光年（天津四）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=cassiopeia" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="仙后座" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">秋季北天星座</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">仙后座</h3>
+                                    <span class="card-title-en">CASSIOPEIA</span>
+                                </div>
+                                <p class="card-summary mb-3">與北斗七星隔著北極星遙遙相望的「W」形皇冠，在秋季夜空中成為尋找北方最可靠的替代指標。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：55 至 610 光年（W形主星）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=crux" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="南十字座" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">南天標誌星座</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">南十字座</h3>
+                                    <span class="card-title-en">CRUX (SOUTHERN CROSS)</span>
+                                </div>
+                                <p class="card-summary mb-3">全天八十八個星座中面積最小卻最負盛名的南半球指標，四顆亮星構成璀璨的十字架懸掛在南天銀河。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：320 光年（十字架二）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=milky_way" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1538370965046-79c0d6907d47?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="銀河系中心" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">棒旋星系 / 我們的母星系</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">銀河系中心</h3>
+                                    <span class="card-title-en">MILKY WAY CORE</span>
+                                </div>
+                                <p class="card-summary mb-3">由數千億顆恆星、星團與星際塵埃匯聚而成的宏偉光帶，是人類在宇宙中的宏觀家園。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：26,000 光年（距銀心）</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=andromeda" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="仙女座星系" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">螺旋星系 / 本星系群</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">仙女座星系</h3>
+                                    <span class="card-title-en">ANDROMEDA GALAXY (M31)</span>
+                                </div>
+                                <p class="card-summary mb-3">距離銀河系最近的大型螺旋星系，包含約一兆顆恆星，正以每秒 110 公里的速度向我們悄然靠近。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：254 萬光年</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=pillars" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="創生之柱" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">發射星雲 / 恆星育嬰室</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">創生之柱</h3>
+                                    <span class="card-title-en">PILLARS OF CREATION (M16)</span>
+                                </div>
+                                <p class="card-summary mb-3">位於鷹狀星雲深處的巨型星際氣體與塵埃柱，在新生恆星的強烈輻射雕刻下呈現出神聖的殿堂輪廓。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：6,500 光年</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=sombrero" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1462332420958-a05d1e002413?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="闊邊帽星系" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">無棒螺旋星系 / 室女座</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">闊邊帽星系</h3>
+                                    <span class="card-title-en">SOMBRERO GALAXY (M104)</span>
+                                </div>
+                                <p class="card-summary mb-3">擁有極度明亮的核心隆起與對稱深色塵埃環，側視角度宛如一頂懸浮在漆黑宇宙中的墨西哥闊邊帽。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：2,935 萬光年</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=pleiades" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1464802686167-b939a6910659?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="昴宿星團（七姊妹星團）" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">疏散星團 / 金牛座</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">昴宿星團（七姊妹星團）</h3>
+                                    <span class="card-title-en">PLEIADES (M45)</span>
+                                </div>
+                                <p class="card-summary mb-3">宛如一串撒落在天鵝絨夜幕上的藍寶石項鍊，年輕熾熱的藍巨星正穿越一片淡淡的星際反射星雲。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：444 光年</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=whirlpool" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="渦狀星系" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">交互作用螺旋星系 / 獵犬座</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">渦狀星系</h3>
+                                    <span class="card-title-en">WHIRLPOOL GALAXY (M51)</span>
+                                </div>
+                                <p class="card-summary mb-3">結構最經典完美的宏偉螺旋星系，正與一旁的伴星系進行長達數億年的重力牽引與星際融合。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：2,300 萬光年</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=ring_nebula" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1462332420958-a05d1e002413?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="環狀星雲" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">行星狀星雲 / 天琴座</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">環狀星雲</h3>
+                                    <span class="card-title-en">RING NEBULA (M57)</span>
+                                </div>
+                                <p class="card-summary mb-3">類太陽恆星生命終結時向太空拋出的絢麗氣體光環，中心遺留下一顆高溫緻密的白矮星核心。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：2,570 光年</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                                                        <div class="col-12 col-md-6">
+                        <a href="detail.html?id=lobster_nebula" class="celestial-card">
+                            <div class="card-img-wrapper ">
+                                                                    <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" alt="龍蝦星雲" loading="lazy">
+                                                                <div class="card-vignette"></div>
+                                <span class="card-badge">發射星雲 / 天蠍座大質量恆星搖籃</span>
+                            </div>
+                            <div class="card-info">
+                                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                                    <h3 class="card-title-zh mb-0">龍蝦星雲</h3>
+                                    <span class="card-title-en">LOBSTER NEBULA (NGC 6357)</span>
+                                </div>
+                                <p class="card-summary mb-3">潛伏在天蠍座尾端附近的巨型發射星雲，內部孕育著銀河系中質量最龐大、輻射最熾熱的年輕藍巨星群。</p>
+                                <div class="card-meta d-flex justify-content-between align-items-center">
+                                    <span>觀測距離：約 5,500 光年</span>
+                                    <span class="read-more">觀測詳情 &rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                            </div>
+            </div>
+</section>
+
