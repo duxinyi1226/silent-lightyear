@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/data.php';
 
-// 建立輸出資料夾 docs（GitHub Pages 預設支援從 docs 資料夾發佈網站）
 $out_dir = __DIR__ . '/docs';
 if (!is_dir($out_dir)) {
     mkdir($out_dir, 0777, true);
@@ -20,21 +19,82 @@ if (is_dir(__DIR__ . '/assets')) {
     copy_dir(__DIR__ . '/assets', "$out_dir/assets");
 }
 
-// 讀取本地 style.css 準備直接內嵌進 HTML
+// 讀取本地 style.css
 $css_content = file_exists(__DIR__ . '/assets/style.css') ? file_get_contents(__DIR__ . '/assets/style.css') : '';
-$inline_style = "<style>\n" . $css_content . "\n</style>\n</head>";
+$total_count = count($celestial_bodies);
+$json_bodies = json_encode($celestial_bodies, JSON_UNESCAPED_UNICODE);
+
+// 強制組裝完整且絕對不會遺失的 <head> 與導覽列 HTML
+function wrap_full_page($body_html, $css_content, $total_count, $title_prefix = '') {
+    // 如果原本輸出已經包含 <!DOCTYPE html>，先剝除舊的 <head> 到 <body> 之間，統一用標準完整標頭重建
+    if (stripos($body_html, '<nav') !== false) {
+        $body_html = substr($body_html, stripos($body_html, '<nav'));
+    } elseif (stripos($body_html, '<header') !== false) {
+        $body_html = substr($body_html, stripos($body_html, '<header'));
+    }
+    if (stripos($body_html, '</body>') !== false) {
+        $body_html = substr($body_html, 0, stripos($body_html, '</body>'));
+    }
+
+    $has_nav = (stripos($body_html, '<nav') !== false);
+    $nav_html = $has_nav ? '' : <<<HTML
+<nav class="navbar navbar-expand-xl navbar-dark fixed-top cinema-nav">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center text-nowrap" href="index.html">
+            <span class="brand-zh">寂靜光年</span>
+            <span class="brand-divider">|</span>
+            <span class="brand-en d-none d-sm-inline">SILENT LIGHTYEAR</span>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav align-items-center gap-2 gap-xl-3 text-center py-3 py-xl-0">
+                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html#archive">全部 ({$total_count})</a></li>
+                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html?type=solar#archive">行星</a></li>
+                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html?type=moon#archive">衛星與彗星</a></li>
+                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html?type=star#archive">恆星與黑洞</a></li>
+                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html?type=zodiac#archive">黃道十二星座</a></li>
+                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html?type=constellation#archive">夜空星座</a></li>
+                <li class="nav-item"><a class="nav-link text-nowrap" href="index.html?type=deep_sky#archive">星系與星雲</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+HTML;
+
+    return <<<HTML
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$title_prefix}寂靜光年 SILENT LIGHTYEAR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@300;400;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+{$css_content}
+    </style>
+</head>
+<body>
+{$nav_html}
+{$body_html}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+HTML;
+}
 
 // 1. 產生詳情頁 detail.html
 ob_start();
 $_GET['id'] = 'saturn';
 include __DIR__ . '/detail.php';
-$detail_html = ob_get_clean();
+$detail_raw = ob_get_clean();
+$detail_raw = str_replace('index.php', 'index.html', $detail_raw);
+$detail_html = wrap_full_page($detail_raw, $css_content, $total_count, '天體觀測詳情 | ');
 
-$detail_html = str_replace('index.php', 'index.html', $detail_html);
-$detail_html = preg_replace('/<link[^>]+style\.css[^>]*>/i', '', $detail_html);
-$detail_html = str_replace('</head>', $inline_style, $detail_html);
-
-$json_bodies = json_encode($celestial_bodies, JSON_UNESCAPED_UNICODE);
 $detail_script = <<<HTML
 <script>
 const CELESTIAL_DATA = {$json_bodies};
@@ -81,11 +141,9 @@ file_put_contents("$out_dir/detail.html", $detail_html);
 ob_start();
 $_GET = [];
 include __DIR__ . '/index.php';
-$index_html = ob_get_clean();
-
-$index_html = str_replace(['detail.php', 'index.php'], ['detail.html', 'index.html'], $index_html);
-$index_html = preg_replace('/<link[^>]+style\.css[^>]*>/i', '', $index_html);
-$index_html = str_replace('</head>', $inline_style, $index_html);
+$index_raw = ob_get_clean();
+$index_raw = str_replace(['detail.php', 'index.php'], ['detail.html', 'index.html'], $index_raw);
+$index_html = wrap_full_page($index_raw, $css_content, $total_count, '深空探索檔案館 | ');
 
 $index_script = <<<HTML
 <script>
@@ -135,5 +193,5 @@ HTML;
 $index_html = str_replace('</body>', $index_script, $index_html);
 file_put_contents("$out_dir/index.html", $index_html);
 
-echo "<h1>成功！CSS 字數：" . strlen($css_content) . " bytes，已產生展示版於 /docs 資料夾內。</h1>";
+echo "<h1>成功！已重建完整頁面與 CSS（" . strlen($css_content) . " bytes）於 /docs 資料夾。</h1>";
 ?>
